@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package todo;
+
+option go_package = "github.com/LeMinh0706/todo/proto";
+
+message Todo {
+  string id = 1;
+  string description = 2;
+}
+
+service AddTodoService{
+    rpc AddTodo(AddTodoRequest) returns (AddTodoResponse);
+}
+
+message AddTodoRequest {
+    Todo todo = 1;
+}
+
+message AddTodoResponse {
+    string id = 1;
+}
+
+service CompleteTodoService {
+    rpc CompleteTodo(CompleteTodoRequest) returns (CompleteTodoResponse);
+}
+
+message CompleteTodoRequest {
+    string id = 1;
+}
+
+message CompleteTodoResponse {}
+
+service ListTaskService {
+    rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+}
+
+message ListTasksRequest {}
+
+message ListTasksResponse {
+    repeated Todo todos = 1;
+}   
