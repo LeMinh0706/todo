@@ -13,14 +13,8 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	list := &todo.List{}
-
-	add := todo.NewAddService(list)
-	complete := todo.NewCompleteService(list)
-	get := todo.NewGetService(list)
-
-	proto.RegisterAddTodoServiceServer(grpcServer, add)
-	proto.RegisterCompleteTodoServiceServer(grpcServer, complete)
-	proto.RegisterListTaskServiceServer(grpcServer, get)
+	service := todo.NewAddService(list)
+	proto.RegisterTodoServiceServer(grpcServer, service)
 
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {

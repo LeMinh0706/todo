@@ -340,12 +340,10 @@ const file_proto_todo_proto_rawDesc = "" +
 	"\x10ListTasksRequest\"5\n" +
 	"\x11ListTasksResponse\x12 \n" +
 	"\x05todos\x18\x01 \x03(\v2\n" +
-	".todo.TodoR\x05todos2H\n" +
-	"\x0eAddTodoService\x126\n" +
-	"\aAddTodo\x12\x14.todo.AddTodoRequest\x1a\x15.todo.AddTodoResponse2\\\n" +
-	"\x13CompleteTodoService\x12E\n" +
-	"\fCompleteTodo\x12\x19.todo.CompleteTodoRequest\x1a\x1a.todo.CompleteTodoResponse2O\n" +
-	"\x0fListTaskService\x12<\n" +
+	".todo.TodoR\x05todos2\xca\x01\n" +
+	"\vTodoService\x126\n" +
+	"\aAddTodo\x12\x14.todo.AddTodoRequest\x1a\x15.todo.AddTodoResponse\x12E\n" +
+	"\fCompleteTodo\x12\x19.todo.CompleteTodoRequest\x1a\x1a.todo.CompleteTodoResponse\x12<\n" +
 	"\tListTasks\x12\x16.todo.ListTasksRequest\x1a\x17.todo.ListTasksResponseB\"Z github.com/LeMinh0706/todo/protob\x06proto3"
 
 var (
@@ -373,12 +371,12 @@ var file_proto_todo_proto_goTypes = []any{
 var file_proto_todo_proto_depIdxs = []int32{
 	0, // 0: todo.AddTodoRequest.todo:type_name -> todo.Todo
 	0, // 1: todo.ListTasksResponse.todos:type_name -> todo.Todo
-	1, // 2: todo.AddTodoService.AddTodo:input_type -> todo.AddTodoRequest
-	3, // 3: todo.CompleteTodoService.CompleteTodo:input_type -> todo.CompleteTodoRequest
-	5, // 4: todo.ListTaskService.ListTasks:input_type -> todo.ListTasksRequest
-	2, // 5: todo.AddTodoService.AddTodo:output_type -> todo.AddTodoResponse
-	4, // 6: todo.CompleteTodoService.CompleteTodo:output_type -> todo.CompleteTodoResponse
-	6, // 7: todo.ListTaskService.ListTasks:output_type -> todo.ListTasksResponse
+	1, // 2: todo.TodoService.AddTodo:input_type -> todo.AddTodoRequest
+	3, // 3: todo.TodoService.CompleteTodo:input_type -> todo.CompleteTodoRequest
+	5, // 4: todo.TodoService.ListTasks:input_type -> todo.ListTasksRequest
+	2, // 5: todo.TodoService.AddTodo:output_type -> todo.AddTodoResponse
+	4, // 6: todo.TodoService.CompleteTodo:output_type -> todo.CompleteTodoResponse
+	6, // 7: todo.TodoService.ListTasks:output_type -> todo.ListTasksResponse
 	5, // [5:8] is the sub-list for method output_type
 	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -399,7 +397,7 @@ func file_proto_todo_proto_init() {
 			NumEnums:      0,
 			NumMessages:   7,
 			NumExtensions: 0,
-			NumServices:   3,
+			NumServices:   1,
 		},
 		GoTypes:           file_proto_todo_proto_goTypes,
 		DependencyIndexes: file_proto_todo_proto_depIdxs,

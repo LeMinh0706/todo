@@ -9,8 +9,10 @@ message Todo {
   string description = 2;
 }
 
-service AddTodoService{
+service TodoService {
     rpc AddTodo(AddTodoRequest) returns (AddTodoResponse);
+    rpc CompleteTodo(CompleteTodoRequest) returns (CompleteTodoResponse);
+    rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
 }
 
 message AddTodoRequest {
@@ -21,19 +23,12 @@ message AddTodoResponse {
     string id = 1;
 }
 
-service CompleteTodoService {
-    rpc CompleteTodo(CompleteTodoRequest) returns (CompleteTodoResponse);
-}
 
 message CompleteTodoRequest {
     string id = 1;
 }
 
 message CompleteTodoResponse {}
-
-service ListTaskService {
-    rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
-}
 
 message ListTasksRequest {}
 

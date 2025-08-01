@@ -19,305 +19,177 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AddTodoService_AddTodo_FullMethodName = "/todo.AddTodoService/AddTodo"
+	TodoService_AddTodo_FullMethodName      = "/todo.TodoService/AddTodo"
+	TodoService_CompleteTodo_FullMethodName = "/todo.TodoService/CompleteTodo"
+	TodoService_ListTasks_FullMethodName    = "/todo.TodoService/ListTasks"
 )
 
-// AddTodoServiceClient is the client API for AddTodoService service.
+// TodoServiceClient is the client API for TodoService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type AddTodoServiceClient interface {
+type TodoServiceClient interface {
 	AddTodo(ctx context.Context, in *AddTodoRequest, opts ...grpc.CallOption) (*AddTodoResponse, error)
+	CompleteTodo(ctx context.Context, in *CompleteTodoRequest, opts ...grpc.CallOption) (*CompleteTodoResponse, error)
+	ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error)
 }
 
-type addTodoServiceClient struct {
+type todoServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewAddTodoServiceClient(cc grpc.ClientConnInterface) AddTodoServiceClient {
-	return &addTodoServiceClient{cc}
+func NewTodoServiceClient(cc grpc.ClientConnInterface) TodoServiceClient {
+	return &todoServiceClient{cc}
 }
 
-func (c *addTodoServiceClient) AddTodo(ctx context.Context, in *AddTodoRequest, opts ...grpc.CallOption) (*AddTodoResponse, error) {
+func (c *todoServiceClient) AddTodo(ctx context.Context, in *AddTodoRequest, opts ...grpc.CallOption) (*AddTodoResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddTodoResponse)
-	err := c.cc.Invoke(ctx, AddTodoService_AddTodo_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TodoService_AddTodo_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// AddTodoServiceServer is the server API for AddTodoService service.
-// All implementations must embed UnimplementedAddTodoServiceServer
-// for forward compatibility.
-type AddTodoServiceServer interface {
-	AddTodo(context.Context, *AddTodoRequest) (*AddTodoResponse, error)
-	mustEmbedUnimplementedAddTodoServiceServer()
+func (c *todoServiceClient) CompleteTodo(ctx context.Context, in *CompleteTodoRequest, opts ...grpc.CallOption) (*CompleteTodoResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CompleteTodoResponse)
+	err := c.cc.Invoke(ctx, TodoService_CompleteTodo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedAddTodoServiceServer must be embedded to have
+func (c *todoServiceClient) ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListTasksResponse)
+	err := c.cc.Invoke(ctx, TodoService_ListTasks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TodoServiceServer is the server API for TodoService service.
+// All implementations must embed UnimplementedTodoServiceServer
+// for forward compatibility.
+type TodoServiceServer interface {
+	AddTodo(context.Context, *AddTodoRequest) (*AddTodoResponse, error)
+	CompleteTodo(context.Context, *CompleteTodoRequest) (*CompleteTodoResponse, error)
+	ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error)
+	mustEmbedUnimplementedTodoServiceServer()
+}
+
+// UnimplementedTodoServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedAddTodoServiceServer struct{}
+type UnimplementedTodoServiceServer struct{}
 
-func (UnimplementedAddTodoServiceServer) AddTodo(context.Context, *AddTodoRequest) (*AddTodoResponse, error) {
+func (UnimplementedTodoServiceServer) AddTodo(context.Context, *AddTodoRequest) (*AddTodoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddTodo not implemented")
 }
-func (UnimplementedAddTodoServiceServer) mustEmbedUnimplementedAddTodoServiceServer() {}
-func (UnimplementedAddTodoServiceServer) testEmbeddedByValue()                        {}
+func (UnimplementedTodoServiceServer) CompleteTodo(context.Context, *CompleteTodoRequest) (*CompleteTodoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompleteTodo not implemented")
+}
+func (UnimplementedTodoServiceServer) ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTasks not implemented")
+}
+func (UnimplementedTodoServiceServer) mustEmbedUnimplementedTodoServiceServer() {}
+func (UnimplementedTodoServiceServer) testEmbeddedByValue()                     {}
 
-// UnsafeAddTodoServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AddTodoServiceServer will
+// UnsafeTodoServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TodoServiceServer will
 // result in compilation errors.
-type UnsafeAddTodoServiceServer interface {
-	mustEmbedUnimplementedAddTodoServiceServer()
+type UnsafeTodoServiceServer interface {
+	mustEmbedUnimplementedTodoServiceServer()
 }
 
-func RegisterAddTodoServiceServer(s grpc.ServiceRegistrar, srv AddTodoServiceServer) {
-	// If the following call pancis, it indicates UnimplementedAddTodoServiceServer was
+func RegisterTodoServiceServer(s grpc.ServiceRegistrar, srv TodoServiceServer) {
+	// If the following call pancis, it indicates UnimplementedTodoServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&AddTodoService_ServiceDesc, srv)
+	s.RegisterService(&TodoService_ServiceDesc, srv)
 }
 
-func _AddTodoService_AddTodo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TodoService_AddTodo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddTodoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AddTodoServiceServer).AddTodo(ctx, in)
+		return srv.(TodoServiceServer).AddTodo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AddTodoService_AddTodo_FullMethodName,
+		FullMethod: TodoService_AddTodo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddTodoServiceServer).AddTodo(ctx, req.(*AddTodoRequest))
+		return srv.(TodoServiceServer).AddTodo(ctx, req.(*AddTodoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// AddTodoService_ServiceDesc is the grpc.ServiceDesc for AddTodoService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var AddTodoService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "todo.AddTodoService",
-	HandlerType: (*AddTodoServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "AddTodo",
-			Handler:    _AddTodoService_AddTodo_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/todo.proto",
-}
-
-const (
-	CompleteTodoService_CompleteTodo_FullMethodName = "/todo.CompleteTodoService/CompleteTodo"
-)
-
-// CompleteTodoServiceClient is the client API for CompleteTodoService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type CompleteTodoServiceClient interface {
-	CompleteTodo(ctx context.Context, in *CompleteTodoRequest, opts ...grpc.CallOption) (*CompleteTodoResponse, error)
-}
-
-type completeTodoServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewCompleteTodoServiceClient(cc grpc.ClientConnInterface) CompleteTodoServiceClient {
-	return &completeTodoServiceClient{cc}
-}
-
-func (c *completeTodoServiceClient) CompleteTodo(ctx context.Context, in *CompleteTodoRequest, opts ...grpc.CallOption) (*CompleteTodoResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CompleteTodoResponse)
-	err := c.cc.Invoke(ctx, CompleteTodoService_CompleteTodo_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// CompleteTodoServiceServer is the server API for CompleteTodoService service.
-// All implementations must embed UnimplementedCompleteTodoServiceServer
-// for forward compatibility.
-type CompleteTodoServiceServer interface {
-	CompleteTodo(context.Context, *CompleteTodoRequest) (*CompleteTodoResponse, error)
-	mustEmbedUnimplementedCompleteTodoServiceServer()
-}
-
-// UnimplementedCompleteTodoServiceServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedCompleteTodoServiceServer struct{}
-
-func (UnimplementedCompleteTodoServiceServer) CompleteTodo(context.Context, *CompleteTodoRequest) (*CompleteTodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CompleteTodo not implemented")
-}
-func (UnimplementedCompleteTodoServiceServer) mustEmbedUnimplementedCompleteTodoServiceServer() {}
-func (UnimplementedCompleteTodoServiceServer) testEmbeddedByValue()                             {}
-
-// UnsafeCompleteTodoServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CompleteTodoServiceServer will
-// result in compilation errors.
-type UnsafeCompleteTodoServiceServer interface {
-	mustEmbedUnimplementedCompleteTodoServiceServer()
-}
-
-func RegisterCompleteTodoServiceServer(s grpc.ServiceRegistrar, srv CompleteTodoServiceServer) {
-	// If the following call pancis, it indicates UnimplementedCompleteTodoServiceServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&CompleteTodoService_ServiceDesc, srv)
-}
-
-func _CompleteTodoService_CompleteTodo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TodoService_CompleteTodo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CompleteTodoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CompleteTodoServiceServer).CompleteTodo(ctx, in)
+		return srv.(TodoServiceServer).CompleteTodo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CompleteTodoService_CompleteTodo_FullMethodName,
+		FullMethod: TodoService_CompleteTodo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompleteTodoServiceServer).CompleteTodo(ctx, req.(*CompleteTodoRequest))
+		return srv.(TodoServiceServer).CompleteTodo(ctx, req.(*CompleteTodoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// CompleteTodoService_ServiceDesc is the grpc.ServiceDesc for CompleteTodoService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var CompleteTodoService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "todo.CompleteTodoService",
-	HandlerType: (*CompleteTodoServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CompleteTodo",
-			Handler:    _CompleteTodoService_CompleteTodo_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/todo.proto",
-}
-
-const (
-	ListTaskService_ListTasks_FullMethodName = "/todo.ListTaskService/ListTasks"
-)
-
-// ListTaskServiceClient is the client API for ListTaskService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ListTaskServiceClient interface {
-	ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error)
-}
-
-type listTaskServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewListTaskServiceClient(cc grpc.ClientConnInterface) ListTaskServiceClient {
-	return &listTaskServiceClient{cc}
-}
-
-func (c *listTaskServiceClient) ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListTasksResponse)
-	err := c.cc.Invoke(ctx, ListTaskService_ListTasks_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ListTaskServiceServer is the server API for ListTaskService service.
-// All implementations must embed UnimplementedListTaskServiceServer
-// for forward compatibility.
-type ListTaskServiceServer interface {
-	ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error)
-	mustEmbedUnimplementedListTaskServiceServer()
-}
-
-// UnimplementedListTaskServiceServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedListTaskServiceServer struct{}
-
-func (UnimplementedListTaskServiceServer) ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTasks not implemented")
-}
-func (UnimplementedListTaskServiceServer) mustEmbedUnimplementedListTaskServiceServer() {}
-func (UnimplementedListTaskServiceServer) testEmbeddedByValue()                         {}
-
-// UnsafeListTaskServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ListTaskServiceServer will
-// result in compilation errors.
-type UnsafeListTaskServiceServer interface {
-	mustEmbedUnimplementedListTaskServiceServer()
-}
-
-func RegisterListTaskServiceServer(s grpc.ServiceRegistrar, srv ListTaskServiceServer) {
-	// If the following call pancis, it indicates UnimplementedListTaskServiceServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&ListTaskService_ServiceDesc, srv)
-}
-
-func _ListTaskService_ListTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TodoService_ListTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListTasksRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ListTaskServiceServer).ListTasks(ctx, in)
+		return srv.(TodoServiceServer).ListTasks(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ListTaskService_ListTasks_FullMethodName,
+		FullMethod: TodoService_ListTasks_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ListTaskServiceServer).ListTasks(ctx, req.(*ListTasksRequest))
+		return srv.(TodoServiceServer).ListTasks(ctx, req.(*ListTasksRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ListTaskService_ServiceDesc is the grpc.ServiceDesc for ListTaskService service.
+// TodoService_ServiceDesc is the grpc.ServiceDesc for TodoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ListTaskService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "todo.ListTaskService",
-	HandlerType: (*ListTaskServiceServer)(nil),
+var TodoService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "todo.TodoService",
+	HandlerType: (*TodoServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "AddTodo",
+			Handler:    _TodoService_AddTodo_Handler,
+		},
+		{
+			MethodName: "CompleteTodo",
+			Handler:    _TodoService_CompleteTodo_Handler,
+		},
+		{
 			MethodName: "ListTasks",
-			Handler:    _ListTaskService_ListTasks_Handler,
+			Handler:    _TodoService_ListTasks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
