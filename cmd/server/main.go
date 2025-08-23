@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/LeMinh0706/todo/internal/streaming"
 	"github.com/LeMinh0706/todo/internal/todo"
 	"github.com/LeMinh0706/todo/proto"
 	"golang.org/x/sync/errgroup"
@@ -29,8 +30,11 @@ func run(ctx context.Context) error {
 	grpcServer := grpc.NewServer()
 
 	list := &todo.List{}
-	service := todo.NewAddService(list)
+	service := todo.NewService(list)
+	stream := streaming.NewService()
+
 	proto.RegisterTodoServiceServer(grpcServer, service)
+	proto.RegisterStreamingServiceServer(grpcServer, stream)
 
 	g, ctx := errgroup.WithContext(ctx)
 

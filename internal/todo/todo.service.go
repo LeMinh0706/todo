@@ -58,6 +58,6 @@ func (s *Service) ListTasks(ctx context.Context, req *proto.ListTasksRequest) (*
 	return &proto.ListTasksResponse{Todos: protoTodos}, nil
 }
 
-func NewAddService(list *List) proto.TodoServiceServer {
+func NewService(list *List) proto.TodoServiceServer {
 	return &Service{list: list}
 }
